@@ -1,0 +1,28 @@
+python
+class Solution:
+    def firstMissingPositive(self, nums: list[int]) -> int:
+        # Get the length of the array
+        n = len(nums)
+
+        # Place each positive number x at its correct index (x - 1).
+        # Only numbers between 1 and n can be placed in the array.
+        for i in range(n):
+            # Keep swapping until the current number is in its correct
+            # position or it cannot be placed.
+            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+
+                # Find the correct index for the current number
+                correct_index = nums[i] - 1
+
+                # Swap the current number with the number at its correct index
+                nums[i], nums[correct_index] = nums[correct_index], nums[i]
+
+        # Find the first index where the number does not match index + 1
+        for i in range(n):
+            if nums[i] != i + 1:
+                # The first missing positive integer is found
+                return i + 1
+
+        # If all numbers from 1 to n are present, return n + 1
+        return n + 1
+
