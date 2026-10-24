@@ -1,0 +1,21 @@
+class Solution:
+    def totalNQueens(self, n: int) -> int:
+        full = (1 << n) - 1  # n bits set: all columns available
+
+        def solve(cols: int, diag1: int, diag2: int) -> int:
+            if cols == full:          # every row has a queen
+                return 1
+            count = 0
+            # bits set = safe squares in the current row
+            avail = full & ~(cols | diag1 | diag2)
+            while avail:
+                bit = avail & -avail  # lowest set bit = next safe column
+                avail ^= bit          # remove it from the choices
+                count += solve(
+                    cols | bit,
+                    ((diag1 | bit) << 1) & full,  # shift left for next row
+                    (diag2 | bit) >> 1,           # shift right for next row
+                )
+            return count
+
+        return solve(0, 0, 0)
