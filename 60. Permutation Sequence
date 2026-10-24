@@ -1,0 +1,13 @@
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        digits = list(range(1, n + 1))
+        fact = [1] * n
+        for i in range(1, n):
+            fact[i] = fact[i - 1] * i   # fact[i] = i!
+
+        k -= 1                          # switch to 0-indexed
+        result = []
+        for i in range(n - 1, -1, -1):
+            idx, k = divmod(k, fact[i])  # which digit, and the remainder
+            result.append(str(digits.pop(idx)))
+        return "".join(result)
