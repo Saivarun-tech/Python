@@ -1,0 +1,21 @@
+from typing import List
+
+
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        result = []
+        path = []
+
+        def backtrack(start: int) -> None:
+            if len(path) == k:
+                result.append(path.copy())
+                return
+
+            needed = k - len(path)
+            for number in range(start, n - needed + 2):
+                path.append(number)
+                backtrack(number + 1)
+                path.pop()
+
+        backtrack(1)
+        return result
